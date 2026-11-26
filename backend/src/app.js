@@ -99,10 +99,7 @@ app.get('/api/books/:id', async (req, res) => {
     if (!book) return respond(res, 404, false, 'Book not found');
     const loans = await Loan.find({ book: book._id }).sort({ issueDate: -1 }).lean();
     const today = todayAtMidnight();
-    const history = loans.map(loan => ({
-      ...loan,
-      isOverdue: !loan.returnDate && today > todayAtMidnight(loan.dueDate)
-    }));
+    const history = loans.map(loan => ({ ...loan, isOverdue: !loan.returnDate && today > todayAtMidnight(loan.dueDate) }));
     respond(res, 200, true, 'Book details retrieved', { book, loans: history });
   } catch (error) {
     respond(res, 500, false, 'Failed to retrieve book', { error: error.message });
@@ -173,7 +170,7 @@ app.post('/api/books/:id/issue', async (req, res) => {
     const { memberName, memberId, issueDate } = req.body;
     if (!memberName || !memberId || !issueDate) return respond(res, 400, false, 'Member name, member ID and issue date are required');
     const issue = todayAtMidnight(issueDate);
-    if (Number.isNaNaN(issue.getTime())) return respond(res, 400, false, 'Invalid issue date');
+    if (Number.isNaN(issue.getTime())) return respond(res, 400, false, 'Invalid issue date');
     if (issue > todayAtMidnight()) return respond(res, 400, false, 'Issue date cannot be in the future');
     const book = await Book.findById(req.params.id);
     if (!book) return respond(res, 404, false, 'Book not found');
@@ -226,7 +223,7 @@ app.get('/api/stats', async (req, res) => {
       totalTitles: titles,
       totalCopies: copies[0]?.total || 0,
       copiesIssued: issued,
-      overdueLoans: overdueLoans,
+      overdueLoans,
       totalFineCollected: fineResult[0]?.total || 0
     });
   } catch (error) {

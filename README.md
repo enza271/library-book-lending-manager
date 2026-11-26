@@ -32,7 +32,7 @@ Prerequisites: Node.js 18+ and access to a MongoDB Atlas database.
 
 4. Open the Vite URL printed in the terminal, normally `http://localhost:5173`.
 
-Do not commit real database credentials. Put your own `MONGODB_URI` in `backend/.env`; the committed exam URI should only be used if it is a disposable test account. The frontend API URL defaults to `http://localhost:5000/api` and can be changed with `frontend/.env` (`VITE_API_URL`).
+Do not commit real database credentials. Put your own `MONGODB_URI` in `backend/.env`; the committed exam URI should only be used if it is a disposable test account. The frontend API URL defaults to the local backend unless configured otherwise.
 
 ## API
 
@@ -49,13 +49,6 @@ All responses use `{ "success": boolean, "message": string, "data": any }`.
 | POST | `/api/books/:id/issue` | Issue an available copy to a member |
 | POST | `/api/loans/:loanId/return` | Return a loan and calculate late fine |
 | GET | `/api/stats` | Dashboard statistics |
-
-## Screenshots
-
-Add two screenshots of the running application before submission, for example:
-
-- `docs/screenshots/dashboard.png` — book list and statistics.
-- `docs/screenshots/loan-history.png` — a book detail page with loan history.
 
 ## Build frontend
 
